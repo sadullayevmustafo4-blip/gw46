@@ -6,6 +6,305 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <style>
+  :root{
+    --bg: #F5F7F6;
+    --ink: #0F2027;
+    --pool: #0B4F6C;
+    --aqua: #17A398;
+    --coral: #FF6B4A;
+    --lane-gold: #FFC857;
+    --line: rgba(15,32,39,0.10);
+    --card: #FFFFFF;
+    --max: 980px;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Space Grotesk', sans-serif;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .mono{ font-family:'JetBrains Mono', monospace; }
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 24px; }
+
+  /* Lane lines background motif */
+  .lanes{
+    position:absolute; inset:0;
+    display:flex; flex-direction:column; justify-content:space-evenly;
+    pointer-events:none; z-index:0; overflow:hidden;
+  }
+  .lanes span{
+    display:block; height:1px; width:100%;
+    background:repeating-linear-gradient(90deg, var(--line) 0 18px, transparent 18px 34px);
+  }
+  @media (prefers-reduced-motion: no-preference){
+    .lanes span{ animation: drift 14s linear infinite; }
+    .lanes span:nth-child(odd){ animation-direction:reverse; animation-duration:19s; }
+  }
+  @keyframes drift{ from{ background-position-x:0; } to{ background-position-x:340px; } }
+
+  /* Header / nav */
+  header{
+    position:sticky; top:0; z-index:20;
+    background:rgba(245,247,246,0.86); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{ display:flex; align-items:center; justify-content:space-between; padding:16px 24px; }
+  .logo{ font-weight:700; font-size:1.05rem; }
+  .logo span{ color:var(--coral); }
+  nav ul{ list-style:none; display:flex; gap:28px; margin:0; padding:0; font-size:0.92rem; }
+  nav a{ text-decoration:none; opacity:0.75; transition:opacity .2s; }
+  nav a:hover, nav a:focus-visible{ opacity:1; }
+  nav a:focus-visible, a:focus-visible, button:focus-visible{ outline:2px solid var(--aqua); outline-offset:3px; border-radius:3px; }
+
+  /* Hero */
+  .hero{ position:relative; padding:96px 0 80px; overflow:hidden; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono', monospace; font-size:0.78rem;
+    color:var(--pool); background:rgba(11,79,108,0.08);
+    border:1px solid rgba(11,79,108,0.18);
+    padding:5px 12px; border-radius:999px; margin-bottom:22px;
+    position:relative; z-index:1;
+  }
+  .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:var(--aqua); }
+  .hero h1{
+    position:relative; z-index:1;
+    font-size:clamp(2.4rem, 6vw, 4.2rem);
+    font-weight:700; line-height:1.02; max-width:11ch;
+  }
+  .hero h1 em{ font-style:normal; color:var(--pool); }
+  .hero p.lead{
+    position:relative; z-index:1;
+    max-width:52ch; font-size:1.08rem; color:rgba(15,32,39,0.72);
+    margin-top:22px;
+  }
+  .hero-cta{ position:relative; z-index:1; margin-top:34px; display:flex; gap:14px; flex-wrap:wrap; }
+  .btn{
+    font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:0.95rem;
+    padding:13px 24px; border-radius:8px; text-decoration:none;
+    border:1px solid transparent; transition:transform .15s ease, box-shadow .15s ease;
+    display:inline-block;
+  }
+  .btn-primary{ background:var(--pool); color:#fff; }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 8px 20px rgba(11,79,108,0.25); }
+  .btn-ghost{ border-color:var(--line); color:var(--ink); background:transparent; }
+  .btn-ghost:hover{ transform:translateY(-2px); border-color:var(--pool); }
+
+  /* Section shell */
+  section{ padding:76px 0; position:relative; }
+  section.alt{ background:#EFF4F2; }
+  .lane-label{
+    font-family:'JetBrains Mono', monospace; font-size:0.78rem;
+    color:var(--coral); letter-spacing:0.04em; margin-bottom:10px; display:block;
+  }
+  section h2{ font-size:clamp(1.6rem, 3.4vw, 2.3rem); max-width:20ch; }
+  .section-intro{ display:flex; justify-content:space-between; gap:40px; flex-wrap:wrap; align-items:flex-end; margin-bottom:44px; }
+  .section-intro p{ max-width:42ch; color:rgba(15,32,39,0.68); margin:0; }
+
+  /* About */
+  .about-grid{ display:grid; grid-template-columns: 1.1fr 0.9fr; gap:52px; align-items:start; }
+  @media (max-width:760px){ .about-grid{ grid-template-columns:1fr; } }
+  .about-grid p{ color:rgba(15,32,39,0.78); margin:0 0 16px; }
+  .stat-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:8px; }
+  .stat{ background:var(--card); border:1px solid var(--line); border-radius:12px; padding:20px; }
+  .stat .num{ font-family:'Space Grotesk', sans-serif; font-size:1.8rem; font-weight:700; color:var(--pool); }
+  .stat .lbl{ font-size:0.82rem; color:rgba(15,32,39,0.6); margin-top:4px; }
+
+  /* Skills as lanes */
+  .lane-track{ margin-bottom:22px; }
+  .lane-head{ display:flex; justify-content:space-between; font-size:0.88rem; margin-bottom:8px; }
+  .lane-head .name{ font-weight:600; }
+  .lane-head .pct{ font-family:'JetBrains Mono', monospace; color:rgba(15,32,39,0.55); }
+  .lane-bar{ position:relative; height:10px; border-radius:999px; background:rgba(11,79,108,0.10); overflow:hidden; }
+  .lane-bar::before{
+    content:""; position:absolute; inset:0;
+    background:repeating-linear-gradient(90deg, rgba(15,32,39,0.06) 0 2px, transparent 2px 10px);
+  }
+  .lane-fill{ position:relative; height:100%; border-radius:999px; background:linear-gradient(90deg, var(--pool), var(--aqua)); }
+  .lane-fill::after{
+    content:""; position:absolute; right:-1px; top:50%; translate:0 -50%;
+    width:16px; height:16px; border-radius:50%; background:var(--lane-gold);
+    border:2px solid var(--bg); box-shadow:0 0 0 1px var(--pool);
+  }
+
+  /* Projects */
+  .projects{ display:grid; gap:24px; }
+  .project-card{
+    background:var(--card); border:1px solid var(--line); border-radius:16px;
+    padding:32px; display:grid; grid-template-columns:auto 1fr; gap:26px; align-items:start;
+  }
+  @media (max-width:640px){ .project-card{ grid-template-columns:1fr; } }
+  .project-num{
+    font-family:'JetBrains Mono', monospace; font-size:0.85rem; color:var(--coral);
+    border:1px solid rgba(255,107,74,0.35); background:rgba(255,107,74,0.08);
+    padding:6px 10px; border-radius:8px; white-space:nowrap; height:fit-content;
+  }
+  .project-card h3{ font-size:1.35rem; margin-bottom:8px; }
+  .project-card p{ color:rgba(15,32,39,0.72); margin:0 0 16px; max-width:60ch; }
+  .tags{ display:flex; flex-wrap:wrap; gap:8px; }
+  .tag{
+    font-family:'JetBrains Mono', monospace; font-size:0.76rem;
+    background:rgba(11,79,108,0.07); border:1px solid rgba(11,79,108,0.15);
+    color:var(--pool); padding:4px 10px; border-radius:6px;
+  }
+
+  /* Contact */
+  .contact-box{
+    background:var(--pool); color:#fff; border-radius:20px;
+    padding:52px; position:relative; overflow:hidden;
+  }
+  .contact-box .lanes span{ background:repeating-linear-gradient(90deg, rgba(255,255,255,0.09) 0 18px, transparent 18px 34px); }
+  .contact-box h2{ color:#fff; position:relative; z-index:1; }
+  .contact-box p{ color:rgba(255,255,255,0.8); max-width:48ch; position:relative; z-index:1; margin-top:12px; }
+  .contact-links{ position:relative; z-index:1; display:flex; gap:14px; margin-top:28px; flex-wrap:wrap; }
+  .contact-box .btn-primary{ background:var(--lane-gold); color:var(--ink); }
+  .contact-box .btn-ghost{ border-color:rgba(255,255,255,0.35); color:#fff; }
+  .contact-box .btn-ghost:hover{ border-color:#fff; }
+
+  footer{ text-align:center; padding:32px 24px; font-size:0.85rem; color:rgba(15,32,39,0.5); }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="logo">mustafo<span>.dev</span></div>
+    <ul>
+      <li><a href="#about">Men haqimda</a></li>
+      <li><a href="#skills">Ko'nikmalar</a></li>
+      <li><a href="#projects">Loyihalar</a></li>
+      <li><a href="#contact">Aloqa</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="lanes" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="wrap">
+    <span class="eyebrow"><span class="dot"></span>0-yo'lak — start</span>
+    <h1>Kodni <em>lap</em> qilib, mukammallikka intilaman.</h1>
+    <p class="lead">Salom, men Mustafo — frontend web dasturchiman. Suzuvchilikdan qolgan intizom bilan JavaScript, HTML va CSS'ni o'rganaman: har bir loyihani qayta-qayta suzib, natijani yaxshilayman.</p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">Loyihalarni ko'rish</a>
+      <a href="#contact" class="btn btn-ghost">Bog'lanish</a>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="alt">
+  <div class="wrap">
+    <div class="about-grid">
+      <div>
+        <span class="lane-label">1-yo'lak / Men haqimda</span>
+        <h2>Suzishdan dasturlashga — bir xil intizom, yangi maydon</h2>
+        <p style="margin-top:20px;">Bir necha yil suzuvchilik bilan shug'ullanganman — u yerda natija faqat bitta suzishdan emas, ko'plab takroriy mashqlardan keladi. Frontend dasturlashda ham xuddi shunday yondashaman: bitta loyihani bir necha marta qayta ishlab chiqaman, har safar biroz yaxshiroq qilib.</p>
+        <p>Hozir Ginyard platformasida JavaScript asoslarini chuqur o'rganmoqdaman — DOM, hodisalar, localStorage, va zamonaviy interfeys qurish usullari.</p>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><div class="num">2+</div><div class="lbl">to'liq loyiha (TOMOSHA, Viar)</div></div>
+        <div class="stat"><div class="num">5+</div><div class="lbl">dizayn iteratsiyasi bitta loyihada</div></div>
+        <div class="stat"><div class="num">JS</div><div class="lbl">asosiy mutaxassislik</div></div>
+        <div class="stat"><div class="num">UZ</div><div class="lbl">Toshkent, O'zbekiston</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-intro">
+      <div>
+        <span class="lane-label">2-yo'lak / Ko'nikmalar</span>
+        <h2>Har bir yo'lak — bitta texnologiya</h2>
+      </div>
+      <p>Progress chiziqlari suzish yo'lagidek — har biri hozirgi bosqichni ko'rsatadi, chekka emas.</p>
+    </div>
+
+    <div class="lane-track">
+      <div class="lane-head"><span class="name">JavaScript (DOM, hodisalar, localStorage)</span><span class="pct mono">90%</span></div>
+      <div class="lane-bar"><div class="lane-fill" style="width:90%"></div></div>
+    </div>
+    <div class="lane-track">
+      <div class="lane-head"><span class="name">HTML / semantik tuzilma</span><span class="pct mono">88%</span></div>
+      <div class="lane-bar"><div class="lane-fill" style="width:88%"></div></div>
+    </div>
+    <div class="lane-track">
+      <div class="lane-head"><span class="name">CSS / Tailwind, responsiv dizayn</span><span class="pct mono">82%</span></div>
+      <div class="lane-bar"><div class="lane-fill" style="width:82%"></div></div>
+    </div>
+    <div class="lane-track">
+      <div class="lane-head"><span class="name">Git &amp; terminal (CMD, Unix)</span><span class="pct mono">55%</span></div>
+      <div class="lane-bar"><div class="lane-fill" style="width:55%"></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="alt">
+  <div class="wrap">
+    <div class="section-intro">
+      <div>
+        <span class="lane-label">3-yo'lak / Loyihalar</span>
+        <h2>Yakunlangan ishlar</h2>
+      </div>
+      <p>Ikkalasi ham noldan qurilgan va bir necha bor qayta dizayn qilingan.</p>
+    </div>
+
+    <div class="projects">
+      <article class="project-card">
+        <span class="project-num">01</span>
+        <div>
+          <h3>TOMOSHA</h3>
+          <p>Kino va serial platformasi — JavaScript kursi yakuniy loyihasi. Login/ro'yxatdan o'tish tizimi, localStorage orqali sessiya, parol kuchini tekshirish, qorong'i rejim, sevimlilar, debounce bilan qidiruv, janr bo'yicha filtr va trailer modal oynasi. HTML <code class="mono">&lt;template&gt;</code> elementi asosida ma'lumotlarga asoslangan render tizimi.</p>
+          <div class="tags">
+            <span class="tag">JavaScript</span><span class="tag">localStorage</span><span class="tag">Dark mode</span><span class="tag">Debounce search</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <span class="project-num">02</span>
+        <div>
+          <h3>Viar</h3>
+          <p>Sayohatni bron qilish sayti — bron shakli, qorong'i rejim, PayMe/Click orqali to'lov bo'limi va responsiv navigatsiya paneli. Nolldan qurilgan navbar bir necha marta referens dizaynga moslab qayta ishlangan.</p>
+          <div class="tags">
+            <span class="tag">Booking form</span><span class="tag">Responsive navbar</span><span class="tag">Payme / Click</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-box">
+      <div class="lanes" aria-hidden="true"><span></span><span></span><span></span></div>
+      <span class="lane-label" style="color:var(--lane-gold);">Finish yo'lagi</span>
+      <h2>Loyiha bormi? Birga suzamiz.</h2>
+      <p>Yangi frontend loyiha, hamkorlik yoki savolingiz bo'lsa — yozib qoldiring.</p>
+      <div class="contact-links">
+        <a href="mailto:mustafo@example.com" class="btn btn-primary">Email yozish</a>
+        <a href="#" class="btn btn-ghost">Telegram</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Mustafo. Frontend bilan qurilgan, intizom bilan yakunlangan.</footer>
+
 </body>
 </html>
