@@ -180,6 +180,180 @@
 </style>
 </head>
 <body>
+    <style>
+  :root{
+    --bg: #F5F7F6;
+    --ink: #0F2027;
+    --pool: #0B4F6C;
+    --aqua: #17A398;
+    --coral: #FF6B4A;
+    --lane-gold: #FFC857;
+    --line: rgba(15,32,39,0.10);
+    --card: #FFFFFF;
+    --max: 980px;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Space Grotesk', sans-serif;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .mono{ font-family:'JetBrains Mono', monospace; }
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 24px; }
+
+  /* Lane lines background motif */
+  .lanes{
+    position:absolute; inset:0;
+    display:flex; flex-direction:column; justify-content:space-evenly;
+    pointer-events:none; z-index:0; overflow:hidden;
+  }
+  .lanes span{
+    display:block; height:1px; width:100%;
+    background:repeating-linear-gradient(90deg, var(--line) 0 18px, transparent 18px 34px);
+  }
+  @media (prefers-reduced-motion: no-preference){
+    .lanes span{ animation: drift 14s linear infinite; }
+    .lanes span:nth-child(odd){ animation-direction:reverse; animation-duration:19s; }
+  }
+  @keyframes drift{ from{ background-position-x:0; } to{ background-position-x:340px; } }
+
+  /* Header / nav */
+  header{
+    position:sticky; top:0; z-index:20;
+    background:rgba(245,247,246,0.86); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{ display:flex; align-items:center; justify-content:space-between; padding:16px 24px; }
+  .logo{ font-weight:700; font-size:1.05rem; }
+  .logo span{ color:var(--coral); }
+  nav ul{ list-style:none; display:flex; gap:28px; margin:0; padding:0; font-size:0.92rem; }
+  nav a{ text-decoration:none; opacity:0.75; transition:opacity .2s; }
+  nav a:hover, nav a:focus-visible{ opacity:1; }
+  nav a:focus-visible, a:focus-visible, button:focus-visible{ outline:2px solid var(--aqua); outline-offset:3px; border-radius:3px; }
+
+  /* Hero */
+  .hero{ position:relative; padding:96px 0 80px; overflow:hidden; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono', monospace; font-size:0.78rem;
+    color:var(--pool); background:rgba(11,79,108,0.08);
+    border:1px solid rgba(11,79,108,0.18);
+    padding:5px 12px; border-radius:999px; margin-bottom:22px;
+    position:relative; z-index:1;
+  }
+  .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:var(--aqua); }
+  .hero h1{
+    position:relative; z-index:1;
+    font-size:clamp(2.4rem, 6vw, 4.2rem);
+    font-weight:700; line-height:1.02; max-width:11ch;
+  }
+  .hero h1 em{ font-style:normal; color:var(--pool); }
+  .hero p.lead{
+    position:relative; z-index:1;
+    max-width:52ch; font-size:1.08rem; color:rgba(15,32,39,0.72);
+    margin-top:22px;
+  }
+  .hero-cta{ position:relative; z-index:1; margin-top:34px; display:flex; gap:14px; flex-wrap:wrap; }
+  .btn{
+    font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:0.95rem;
+    padding:13px 24px; border-radius:8px; text-decoration:none;
+    border:1px solid transparent; transition:transform .15s ease, box-shadow .15s ease;
+    display:inline-block;
+  }
+  .btn-primary{ background:var(--pool); color:#fff; }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 8px 20px rgba(11,79,108,0.25); }
+  .btn-ghost{ border-color:var(--line); color:var(--ink); background:transparent; }
+  .btn-ghost:hover{ transform:translateY(-2px); border-color:var(--pool); }
+
+  /* Section shell */
+  section{ padding:76px 0; position:relative; }
+  section.alt{ background:#EFF4F2; }
+  .lane-label{
+    font-family:'JetBrains Mono', monospace; font-size:0.78rem;
+    color:var(--coral); letter-spacing:0.04em; margin-bottom:10px; display:block;
+  }
+  section h2{ font-size:clamp(1.6rem, 3.4vw, 2.3rem); max-width:20ch; }
+  .section-intro{ display:flex; justify-content:space-between; gap:40px; flex-wrap:wrap; align-items:flex-end; margin-bottom:44px; }
+  .section-intro p{ max-width:42ch; color:rgba(15,32,39,0.68); margin:0; }
+
+  /* About */
+  .about-grid{ display:grid; grid-template-columns: 1.1fr 0.9fr; gap:52px; align-items:start; }
+  @media (max-width:760px){ .about-grid{ grid-template-columns:1fr; } }
+  .about-grid p{ color:rgba(15,32,39,0.78); margin:0 0 16px; }
+  .stat-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:8px; }
+  .stat{ background:var(--card); border:1px solid var(--line); border-radius:12px; padding:20px; }
+  .stat .num{ font-family:'Space Grotesk', sans-serif; font-size:1.8rem; font-weight:700; color:var(--pool); }
+  .stat .lbl{ font-size:0.82rem; color:rgba(15,32,39,0.6); margin-top:4px; }
+
+  /* Skills as lanes */
+  .lane-track{ margin-bottom:22px; }
+  .lane-head{ display:flex; justify-content:space-between; font-size:0.88rem; margin-bottom:8px; }
+  .lane-head .name{ font-weight:600; }
+  .lane-head .pct{ font-family:'JetBrains Mono', monospace; color:rgba(15,32,39,0.55); }
+  .lane-bar{ position:relative; height:10px; border-radius:999px; background:rgba(11,79,108,0.10); overflow:hidden; }
+  .lane-bar::before{
+    content:""; position:absolute; inset:0;
+    background:repeating-linear-gradient(90deg, rgba(15,32,39,0.06) 0 2px, transparent 2px 10px);
+  }
+  .lane-fill{ position:relative; height:100%; border-radius:999px; background:linear-gradient(90deg, var(--pool), var(--aqua)); }
+  .lane-fill::after{
+    content:""; position:absolute; right:-1px; top:50%; translate:0 -50%;
+    width:16px; height:16px; border-radius:50%; background:var(--lane-gold);
+    border:2px solid var(--bg); box-shadow:0 0 0 1px var(--pool);
+  }
+
+  /* Projects */
+  .projects{ display:grid; gap:24px; }
+  .project-card{
+    background:var(--card); border:1px solid var(--line); border-radius:16px;
+    padding:32px; display:grid; grid-template-columns:auto 1fr; gap:26px; align-items:start;
+  }
+  @media (max-width:640px){ .project-card{ grid-template-columns:1fr; } }
+  .project-num{
+    font-family:'JetBrains Mono', monospace; font-size:0.85rem; color:var(--coral);
+    border:1px solid rgba(255,107,74,0.35); background:rgba(255,107,74,0.08);
+    padding:6px 10px; border-radius:8px; white-space:nowrap; height:fit-content;
+  }
+  .project-card h3{ font-size:1.35rem; margin-bottom:8px; }
+  .project-card p{ color:rgba(15,32,39,0.72); margin:0 0 16px; max-width:60ch; }
+  .tags{ display:flex; flex-wrap:wrap; gap:8px; }
+  .tag{
+    font-family:'JetBrains Mono', monospace; font-size:0.76rem;
+    background:rgba(11,79,108,0.07); border:1px solid rgba(11,79,108,0.15);
+    color:var(--pool); padding:4px 10px; border-radius:6px;
+  }
+
+  /* Contact */
+  .contact-box{
+    background:var(--pool); color:#fff; border-radius:20px;
+    padding:52px; position:relative; overflow:hidden;
+  }
+  .contact-box .lanes span{ background:repeating-linear-gradient(90deg, rgba(255,255,255,0.09) 0 18px, transparent 18px 34px); }
+  .contact-box h2{ color:#fff; position:relative; z-index:1; }
+  .contact-box p{ color:rgba(255,255,255,0.8); max-width:48ch; position:relative; z-index:1; margin-top:12px; }
+  .contact-links{ position:relative; z-index:1; display:flex; gap:14px; margin-top:28px; flex-wrap:wrap; }
+  .contact-box .btn-primary{ background:var(--lane-gold); color:var(--ink); }
+  .contact-box .btn-ghost{ border-color:rgba(255,255,255,0.35); color:#fff; }
+  .contact-box .btn-ghost:hover{ border-color:#fff; }
+
+  footer{ text-align:center; padding:32px 24px; font-size:0.85rem; color:rgba(15,32,39,0.5); }
+</style>
+</head>
+<body>
+
 
 <header>
   <nav class="wrap">
@@ -298,8 +472,13 @@
       <h2>Loyiha bormi? Birga suzamiz.</h2>
       <p>Yangi frontend loyiha, hamkorlik yoki savolingiz bo'lsa — yozib qoldiring.</p>
       <div class="contact-links">
+<<<<<<< HEAD
         <a href="https://www.instagram.com/aps066?igsh=MWo5YTZhY2o2aXFoOA==" class="btn btn-primary">Instagram</a>
         <a href="https://t.me/Aps066" class="btn btn-ghost">Telegram</a>
+=======
+        <a href="mailto:mustafo@example.com" class="btn btn-primary">Email yozish</a>
+        <a href="#" class="btn btn-ghost">Telegram</a>
+>>>>>>> 58ae1ec757d54cfc1d5bdb8fda74d0de26039af6
       </div>
     </div>
   </div>
